@@ -27,7 +27,7 @@ android/
 ios/
 test/
 Web/
-bak/
+keep/
 
 
 # Flutter/Dart/Pub related
