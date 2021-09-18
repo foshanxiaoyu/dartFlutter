@@ -27,6 +27,8 @@ android/
 ios/
 test/
 Web/
+bak/
+
 
 # Flutter/Dart/Pub related
 **/doc/api/
