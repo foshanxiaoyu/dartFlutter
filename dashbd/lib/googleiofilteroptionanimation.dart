@@ -24,15 +24,15 @@ class GoogleIOFilterState extends State<GoogleIOFilter>
     with TickerProviderStateMixin {
   final GlobalKey _commonContainerKey =
       GlobalKey(debugLabel: 'CommonContainer');
-
-  AnimationController _controller;
-  Animation<double> _rightPaddingAnimation;
-  Animation<double> _leftPaddingAnimation;
-  Animation<double> _dotHeightAnimation;
-  Animation<double> _closeImageAnimation;
-  Animation<double> _dotLeftPositionAnimation;
-  Animation<double> _dotTopPositionAnimation;
-  Animation<Color> _textColorAnimation;
+  // init 用late 处理以下八个值 21.09.18
+  late AnimationController _controller;
+  late Animation<double> _rightPaddingAnimation;
+  late Animation<double> _leftPaddingAnimation;
+  late Animation<double> _dotHeightAnimation;
+  late Animation<double> _closeImageAnimation;
+  late Animation<double> _dotLeftPositionAnimation;
+  late Animation<double> _dotTopPositionAnimation;
+  late Animation<Color?> _textColorAnimation;
   bool isChecked = false;
 
   @override
@@ -47,8 +47,8 @@ class GoogleIOFilterState extends State<GoogleIOFilter>
     _dotLeftPositionAnimation =
         Tween(begin: 10.0, end: 0.0).animate(_controller);
     _dotTopPositionAnimation = Tween(begin: 8.0, end: 0.0).animate(_controller);
-    _textColorAnimation =
-        ColorTween(begin: Colors.black, end: Colors.white).animate(_controller);
+    _textColorAnimation = ColorTween(begin: Colors.black, end: Colors.white)
+        .animate(_controller); //此处要在35行声明处类型'Color'后加？,类型检测空值不能通过
   }
 
   @override
@@ -67,7 +67,8 @@ class GoogleIOFilterState extends State<GoogleIOFilter>
     var width = 20.0;
     if (_commonContainerKey.currentContext != null) {
       final RenderBox renderBox =
-          _commonContainerKey.currentContext.findRenderObject();
+          _commonContainerKey.currentContext!.findRenderObject() as RenderBox;
+      //此处加入'as RenderBox'强制转换还在.find前加判断非空'!'
       width = renderBox.size.width;
     }
     print("width$width");
@@ -75,7 +76,7 @@ class GoogleIOFilterState extends State<GoogleIOFilter>
     return Tween(begin: 20.0, end: width).animate(_controller);
   }
 
-  Widget getWidgetBuilder(BuildContext context, Widget widget) {
+  Widget getWidgetBuilder(BuildContext context, Widget? widget) {
     return InkWell(
       onTap: () {
         isChecked = !isChecked;
@@ -148,7 +149,7 @@ class GoogleIOFilterState extends State<GoogleIOFilter>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      builder: getWidgetBuilder,
+      builder: getWidgetBuilder, //在getWidgetBuilder 87行声明处‘Widget’后加?
       animation: _controller,
     );
   }
