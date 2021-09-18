@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomDropdown extends StatefulWidget {
   final String text;
 
-  const CustomDropdown({Key key, @required this.text}) : super(key: key);
+  const CustomDropdown({Key? key, required this.text}) : super(key: key);
 
   @override
   _CustomDropdownState createState() => _CustomDropdownState();
@@ -61,8 +61,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
           } else {
             findDropdownData();
             floatingDropdown = _createFloatingDropdown();
-            Overlay.of(context).insert(floatingDropdown);
-          }
+            Overlay.of(context)?.insert(floatingDropdown);
+          } // 'Overlay.of(context)'后面加?可以排除用insert空值的问题
 
           isDropdownOpened = !isDropdownOpened;
         });
@@ -97,7 +97,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
 class DropDown extends StatelessWidget {
   final double itemHeight;
 
-  const DropDown({Key key, this.itemHeight}) : super(key: key);
+  const DropDown({Key? key, required this.itemHeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -166,16 +166,18 @@ class DropDownItem extends StatelessWidget {
   final bool isLastItem;
 
   const DropDownItem(
-      {Key key,
-      this.text,
-      this.iconData,
+      {Key? key,
+      required this.text,
+      required this.iconData,
       this.isSelected = false,
       this.isFirstItem = false,
       this.isLastItem = false})
       : super(key: key);
 
   factory DropDownItem.first(
-      {String text, IconData iconData, bool isSelected}) {
+      {required String text,
+      required IconData iconData,
+      required bool isSelected}) {
     return DropDownItem(
       text: text,
       iconData: iconData,
@@ -184,7 +186,10 @@ class DropDownItem extends StatelessWidget {
     );
   }
 
-  factory DropDownItem.last({String text, IconData iconData, bool isSelected}) {
+  factory DropDownItem.last(
+      {required String text,
+      required IconData iconData,
+      required bool isSelected}) {
     return DropDownItem(
       text: text,
       iconData: iconData,
@@ -244,20 +249,20 @@ class ArrowShape extends ShapeBorder {
   EdgeInsetsGeometry get dimensions => throw UnimplementedError();
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection textDirection}) {
-    // TODO: implement getInnerPath
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
+    // TODO: implement getInnerPath 'TextDirection'后面加?
     throw UnimplementedError();
   }
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection textDirection}) {
-    // TODO: implement getOuterPath
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    // TODO: implement getOuterPath 'TextDirection'后面加?
     return getClip(rect.size);
   }
 
   @override
-  void paint(Canvas canvas, Rect rect, {TextDirection textDirection}) {
-    // TODO: implement paint
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+    // TODO: implement paint 'TextDirection'后面加?
   }
 
   @override
