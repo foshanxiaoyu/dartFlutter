@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 enum WidgetMarker { graph, stats, info }
@@ -24,14 +26,15 @@ class BodyWidget extends StatefulWidget {
 class BodyWidgetState extends State<BodyWidget>
     with SingleTickerProviderStateMixin<BodyWidget> {
   WidgetMarker selectedWidgetMarker = WidgetMarker.graph;
-  AnimationController _controller;
-  Animation _animation;
+  late AnimationController _controller;
+  late Animation _animation;
 
   @override
   void initState() {
     super.initState();
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    // _animation!= null,
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
   }
 
@@ -117,7 +120,7 @@ class BodyWidgetState extends State<BodyWidget>
 
   Widget getGraphContainer() {
     return FadeTransition(
-      opacity: _animation,
+      opacity: _animation as dynamic, // 加as dynamic强制
       child: Container(
         color: Colors.red,
         height: 200,
@@ -127,7 +130,7 @@ class BodyWidgetState extends State<BodyWidget>
 
   Widget getStatsContainer() {
     return FadeTransition(
-      opacity: _animation,
+      opacity: _animation as dynamic, // 加 as dynamic 强制
       child: Container(
         color: Colors.green,
         height: 300,
@@ -137,7 +140,7 @@ class BodyWidgetState extends State<BodyWidget>
 
   Widget getInfoContainer() {
     return FadeTransition(
-      opacity: _animation,
+      opacity: _animation as dynamic, // 加as dynamic强制
       child: Container(
         color: Colors.blue,
         height: 400,
